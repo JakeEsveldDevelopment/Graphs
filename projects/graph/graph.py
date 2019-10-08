@@ -54,7 +54,7 @@ class Graph:
                     stack.push(next)
 
         print(str(visited) + "DFT")
-        return visited  # TODO
+        return visited  
     def dft_recursive(self, starting_vertex, path):
         """
         Print each vertex in depth-first order
@@ -69,13 +69,8 @@ class Graph:
           
         print(visited)
         return visited
-        # TODO
+        
     def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
         queue = Queue()
         visited = []
         queue.enqueue([starting_vertex])
@@ -83,7 +78,6 @@ class Graph:
             path = queue.dequeue()
             vert = path[-1]
             if vert == destination_vertex:
-                print(path)
                 return path
             if vert not in visited:
                 visited.append(vert)
@@ -92,7 +86,7 @@ class Graph:
                     new_path.append(next)
                     queue.enqueue(new_path)
         print("Not found - BFS")            
-        return None  # TODO
+        return None  
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
