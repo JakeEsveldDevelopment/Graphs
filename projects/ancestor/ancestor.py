@@ -21,7 +21,7 @@ def earliest_ancestor(ancestors, starting_node):
             ancestorsList[node[1]] = set()
         ancestorsList[node[1]].add(node[0])
 
-    if starting_node not in ancestorsList or len(ancestorsList[starting_node]) == 0:
+    if starting_node not in ancestorsList:
         return -1
 
     queue = Queue()
