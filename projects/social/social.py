@@ -88,14 +88,17 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        doneList = list()
         queue = Queue()
         queue.enqueue([userID])
         while queue.size() > 0:
             path = queue.dequeue()
             vert = path[-1]
-            if vert not in visited:
-                if len(path) > 1:
-                    visited[vert] = len(path)
+            if len(path) - 1 not in visited:
+                visited[len(path) - 1] = set()
+            if vert not in doneList:               
+                visited[len(path) - 1].add(vert)
+                doneList.append(vert)
                 for next in self.friendships[vert]:
                     next_path = list(path)
                     next_path.append(next)
