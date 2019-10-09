@@ -11,45 +11,103 @@ class Graph:
         """
         Add a vertex to the graph.
         """
+        self.vertices[vertex] = set()
         pass  # TODO
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
+        self.vertices[v1].add(v2)
         pass  # TODO
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        queue = Queue()
+        visited = set()
+        queue.enqueue(starting_vertex)
+        while queue.size() is not 0:
+            vert = queue.dequeue()
+            if vert is not None:
+                if vert in visited:
+                    continue
+                visited.add(vert)
+                if len(self.vertices[vert]) > 0:
+                    for connection in self.vertices[vert]:
+                        queue.enqueue(connection)
+        print(str(visited) + "BFT")            
+        return visited  # TODO
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+        stack = Stack()
+        visited = []
+        stack.push(starting_vertex)
+        while stack.size() is not 0:
+            vert = stack.pop()
+            if vert not in visited:
+                visited.append(vert)
+                for next in self.vertices[vert]:
+                    stack.push(next)
+
+        print(str(visited) + "DFT")
+        return visited  
+    def dft_recursive(self, starting_vertex, path):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = path
+        visited.append(starting_vertex)
+        for next in self.vertices[starting_vertex]:
+            if next not in visited:
+                self.dft_recursive(next, visited)
+          
+        print(visited)
+        return visited
+        
     def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-        pass  # TODO
+        queue = Queue()
+        visited = []
+        queue.enqueue([starting_vertex])
+        while queue.size() is not 0:
+            path = queue.dequeue()
+            vert = path[-1]
+            if vert == destination_vertex:
+                return path
+            if vert not in visited:
+                visited.append(vert)
+                for next in self.vertices[vert]:
+                    new_path = list(path)
+                    new_path.append(next)
+                    queue.enqueue(new_path)
+        print("Not found - BFS")            
+        return None  
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = Stack()
+        visited = []
+        stack.push(starting_vertex)
+        while stack.size() is not 0:
+            vert = stack.pop()
+            if vert == destination_vertex:
+                visited.append(vert)
+                return visited
+            if vert not in visited:
+                visited.append(vert)
+                for next in self.vertices[vert]:
+                    stack.push(next)
+
+        print("Not Found DFS")
+        return visited  # TODO
 
 
 
@@ -115,17 +173,21 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft_recursive(1)
+    graph.dft_recursive(1, [])
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print("BFS")
     print(graph.bfs(1, 6))
+    print("END BFS")
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print("DFS")
     print(graph.dfs(1, 6))
+    print("END DFS")
